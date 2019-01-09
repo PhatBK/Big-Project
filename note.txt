@@ -3,3 +3,7 @@ https://medium.com/@thucnc/%E1%BB%A9ng-d%E1%BB%A5ng-h%E1%BB%8Dc-m%C3%A1y-trong-h
 https://ebaytech.berlin/deep-learning-for-recommender-systems-48c786a20e1a
 
 https://towardsdatascience.com/the-4-recommendation-engines-that-can-predict-your-movie-tastes-109dc4e10c52
+
+https://developer.mozilla.org/en-US/docs/Web/API/Network_Information_API
+
+https://stackoverflow.com/questions/5529718/how-to-detect-internet-speed-in-javascript
