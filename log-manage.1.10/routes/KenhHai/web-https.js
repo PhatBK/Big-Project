@@ -1,26 +1,27 @@
 var express = require('express');
+var sizeof = require('object-sizeof');
 var router = express.Router();
-// var IdefineService = require('../../commons/idefine_service');
 var functionUtils = require('../../commons/functions');
 
 // path save data all folder
 const path_log_datas = 'cron_tasks/all-data/kenh-hai/';
+const timerProcessRequest = 1 * 60 * 1000; // 5 phút xử lý hàng đợi request một lần
 
-// path save data one folder
-let totalRequested  = 0;
-
-let clientWatchedDuration = [];
-let clientMediaDuration = [];
-
+let clientRequestMap = new Map();
+let clientRequestIdSet = new Set();
 /**
  * Post Router for receive data log from browser of client wathcing video
  */
 router.post('/event/log-datas', function(req, res, next) {
 
+    clientRequestIdSet.add(req.body.userID);
+    clientRequestMap.set(req.body.userID + '@' + req.body.mediaInfos.mediaID + '@' + req.body.time, req.body);
+
     let services = functionUtils.serviceIdefine(req.headers['service_token'], 4);
     let service_name = services.service_name;
     let service_type = services.service_type;
-    totalRequested++;
+    let TIMEOUT = 0;
+    
     if (req.body.watchedDuration !== 0 && 
         (
             req.body.event === 'performance' ||
@@ -67,21 +68,67 @@ router.post('/event/log-datas', function(req, res, next) {
             req.body.bufferDuration,
             req.body.errorCode,
         );
-    
+        if (req.body.mediaInfos.mediaDuration < 300) {
+            TIMEOUT = 10000;
+        } else if (req.body.mediaInfos.mediaDuration < 3600) {
+            TIMEOUT = 20000;
+        } else if (req.body.mediaInfos.mediaDuration < 10800) {
+            TIMEOUT = 60000;
+        } else {
+            TIMEOUT = 300000;
+        }
         res.status(200).json({
             'status': 'Successed',
-            'data': req.body,
-            'totalRequested': totalRequested,
+            'code': 200,
+            'TIMEOUT': TIMEOUT,
         });
+        //res.status(200).end();
     } else {
+        if (req.body.mediaInfos.mediaDuration < 300) {
+            TIMEOUT = 10000;
+        } else if (req.body.mediaInfos.mediaDuration < 3600) {
+            TIMEOUT = 20000;
+        } else if (req.body.mediaInfos.mediaDuration < 10800) {
+            TIMEOUT = 60000;
+        } else {
+            TIMEOUT = 300000;
+        }
         res.status(405).json({
-            'event': 'all-event-tracking',
             'status': 'Failure',
             'error_code': 405,
-            'message': 'Request not allow',
-            'totalRequested': totalRequested,
+            'message': 'Request not process',
+            'TIMEOUT': TIMEOUT,
         });
+        //res.status(405).end();
     }
 });
+const xah_map_to_obj = ( aMap) => {
+    const obj = {};
+    aMap.forEach ((v,k) => { obj[k] = v });
+    return obj;
+};
+
+
+// setInterval(function() {
+//     console.log(clientRequestMap);
+//     console.log('--------------------');
+//     console.log(clientRequestMap.size);
+//     console.log('--------------------');
+//     console.log(clientRequestIdSet);
+//     console.log(clientRequestIdSet.size);
+   
+//     if (clientRequestMap.size > 100000) {
+//         clientRequestMap.clear();
+//     }
+//     if (clientRequestIdSet.size > 100000) {
+//         clientRequestIdSet.clear();
+//     }
+//     console.log(sizeof(xah_map_to_obj(clientRequestMap)));
+
+//     const used = process.memoryUsage().heapUsed / 1024 / 1024;
+//     console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+
+// }, timerProcessRequest);
+
 
 module.exports = router;

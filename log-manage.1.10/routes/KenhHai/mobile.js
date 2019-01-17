@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var functionUtils = require('../../commons/functions');
 
-let totalRequested  = 0;
 const path_log_datas = 'cron_tasks/all-data/kenh-hai/';
 
 /* Post home page. */
 router.post('/event/log-datas', function(req, res, next) {
     // console.log(req.headers);
-    console.log(req.body);
+    // console.log(req.body);
+
     let mediaInfos = JSON.parse(req.body.mediaInfos);
     
     let services = functionUtils.serviceIdefine(req.headers['service_token'], 4);
@@ -51,17 +51,15 @@ router.post('/event/log-datas', function(req, res, next) {
             req.body.errorCode,
         );
         res.status(200).json({
-            'status': 'Successed',
-            'data': req.body,
-            'totalRequested': totalRequested,
+            "responseCode": "200",
+            "message": "Thành công",
+            'data': null,
         });
     } else {
         res.status(405).json({
-            'event': 'all-event-tracking',
-            'status': 'Failure',
-            'error_code': 405,
-            'message': 'Request not allow',
-            'totalRequested': totalRequested,
+            "responseCode": "200",
+            "message": "Yêu Cầu Không Thành công",
+            'data': null,
         });
     }
     

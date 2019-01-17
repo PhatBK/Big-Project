@@ -27,9 +27,6 @@ var server = http.createServer(app);
 
 server.listen(port, () => {
   console.log('-------------------- Server is running port:' + port + '----------------------');
-  console.log('-------------------- Logs of Web app in data_webs/' + '--------------------');
-  console.log('-------------------- Logs of Mobile app in data_mobiles/' + '--------------');
-  console.log('-------------------- Logs of Tablet app in data_tablets/' + '--------------');
 });
 server.on('error', onError);
 server.on('listening', onListening);

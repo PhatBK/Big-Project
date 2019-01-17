@@ -91,13 +91,22 @@ app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Blu
 const limiter_web = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hours
   max: 1000, // limit each IP to 3600 requests per windowMs
-  message: "Bạn Đã Gửi Quá Nhiều Requet Từ Browser Lên Hệ Thống, Vui Lòng Quay Lại Sau Ít Phút Nữa....."
+  message: "the number of requests exceeds the specified number, resubmit after a few minutes | Web/Wap"
 });
 
 const limiter_mobile = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hours
   max: 1000, // limit each IP to 3600 requests per windowMs
-  message: "Bạn Đã Gửi Quá Nhiều Requet Từ Mobile Lên Hệ Thống, Vui Lòng Quay Lại Sau Ít Phút Nữa....."
+  message: "the number of requests exceeds the specified number, resubmit after a few minutes | Mobile"
+});
+
+const limit_call_api_get_serviceToken = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 4,
+    message: JSON.stringify({
+      'status': 429,
+      'message': 'the number of requests exceeds the specified number, resubmit after a few minutes | Token',
+    }),
 });
 //// apply to all requests
 // app.use(limiter);
@@ -126,9 +135,9 @@ app.use(function(req, res, next) {
  * all request from client use Web/wap
  * check data, resolve or reject request
  */
-app.use('/kenh-hai/web', limiter_web);
-app.use('/kenh-hai/web', RequestCheckerMiddlewareWeb);
-app.use('/kenh-hai/web', KenhHaiLogRouterWeb);
+app.use('/web', limiter_web);
+app.use('/web', RequestCheckerMiddlewareWeb);
+app.use('/web', KenhHaiLogRouterWeb);
 
 /**
  * demo use https protocol
@@ -145,18 +154,21 @@ app.use('/web/all', KenhHaiLogRouterWebHttps);
  * all request from client use mobile
  * check data, resolve or reject request
  */
-app.use('/kenh-hai/mobile', limiter_mobile);
-app.use('/kenh-hai/mobile', RequestCheckerMiddlewareMobile )
-app.use('/kenh-hai/mobile', KenhHaiLogRouterMobile);
+app.use('/mobile', limiter_mobile);
+app.use('/mobile', RequestCheckerMiddlewareMobile )
+app.use('/mobile', KenhHaiLogRouterMobile);
 
 
 /**
  * use Utils service for web
  */
+app.use('/api/util-service', limit_call_api_get_serviceToken);
 app.use('/api/util-service', UtilServicesRouterWeb);
+
+
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
-  // next(createError(404));
+  next(createError(404));
   console.error(err.stack);
   res.status(400);
   res.send({ 
@@ -177,24 +189,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
-/**
- * Cookie setup
- */
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: [
-//     process.env.COOKIE_KEY1,
-//     process.env.COOKIE_KEY2
-//   ]
-// }));
- 
-// app.use(function (req, res, next) {
-//   var n = req.session.views || 0;
-//   req.session.views = n++;
-//   res.end(n + ' views');
-//   next();
-// });
 
 
 module.exports = app;
