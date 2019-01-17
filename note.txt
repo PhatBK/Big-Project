@@ -7,3 +7,11 @@ https://towardsdatascience.com/the-4-recommendation-engines-that-can-predict-you
 https://developer.mozilla.org/en-US/docs/Web/API/Network_Information_API
 
 https://stackoverflow.com/questions/5529718/how-to-detect-internet-speed-in-javascript
+
+https://www.valentinog.com/blog/memory-usage-node-js/
+
+https://blog.jscrambler.com/queue-jobs-kue/
+
+https://www.npmjs.com/package/bull
+
+https://millermedeiros.github.io/mdoc/examples/node_api/doc/buffers.html#Buffer.byteLength
