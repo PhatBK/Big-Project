@@ -1,3 +1,0 @@
-const device_infos = {
-
-};
