@@ -2,3 +2,8 @@
 
 
 https://sparxsystems.com/products/ea/
+
+console.log(player.contentEl());
+console.log(player.children());
+console.log(player.children()['6'].durationDisplay.formattedTime_);
+alert(player.children()['6'].durationDisplay.formattedTime_);
