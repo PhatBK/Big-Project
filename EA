@@ -7,3 +7,7 @@ console.log(player.contentEl());
 console.log(player.children());
 console.log(player.children()['6'].durationDisplay.formattedTime_);
 alert(player.children()['6'].durationDisplay.formattedTime_);
+
+
+https://elearning.viettel.vn/
+097157 /Qaz@1092
