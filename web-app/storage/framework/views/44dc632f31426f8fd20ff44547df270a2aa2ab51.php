@@ -95,13 +95,11 @@
                                             aria-expanded="false" class="search" >
                                         <span class="fa fa-search"></span></a>
                                     </li>
-                                    <li><a href="<?php echo e(route('nhahang')); ?>">Nhà Hàng Liên Kết</a></li>
                                     <?php if(!Auth::guard('nhahang')->user()): ?>
                                        <li><a href="monan">Món Ăn</a></li>
                                     <?php endif; ?>
-                                    
                                     <li><a href="dangbai">Đăng bài</a></li>
-
+                                    <li><a href="<?php echo e(route('nhahang')); ?>">Nhà Hàng Liên Kết</a></li>
                                     <?php if(Auth::guard('nhahang')->user()): ?>
                                         <li>
                                           <a href="nhahang/thongtin">
@@ -109,8 +107,6 @@
                                           </a>
                                         </li>
                                     <?php endif; ?>
-
-                                    
                                     <?php if( !Auth::user() && !Auth::guard('nhahang')->user()): ?>
                                       <li><a href="javascript:void(0)" class="signin">Đăng Nhập</a></li>
                                       <li><a href="javascript:void(0)" class="signup">Đăng Ký</a></li>

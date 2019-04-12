@@ -361,6 +361,7 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 	6/ có đánh giá món ăn hay không
 	7/ Có comment món ăn không
 	8/ chia xẻ bài viết về loại gì
+	9/ thời gian user hay ghe thăm món ăn đó
 --}}
 	
 @if(Auth::user())
@@ -374,9 +375,11 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 @endif
 <script>
 	console.log("Starting caculator logs data...");
-	var start = null;
 	var id_mon_an = `{{ $monan->id }}`;
 	var ten_mon_an = `{{ $monan->ten_monan }}`;
+	var date_visit = null;
+	var time_visit_start = null;
+	var start = null;
 	var play_video = null;
 	var referer = document.referrer;
 	var mon_an_id_referrer = 0;
@@ -394,6 +397,18 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 			mon_an_id_referrer = 0;
 		}
 	}
+	function normal_date(time) {
+		let normal = time.getFullYear() + "-" 
+                + (time.getMonth()+1) + "-" 
+                + time.getDate();
+        return normal;
+	};
+	function normal_time(time) {
+		var hour = time.getHours();
+		var minute = time.getMinutes();
+		var normal = hour + ":" + minute;
+		return normal;
+	};
 	function check_video_played() {
 		play_video = true;
 		console.log("Playing video");
@@ -402,9 +417,12 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 	window.addEventListener('load', (event) => {
 		console.log('Starting caculator time...');
 		start = Date.now();
+		var date = new Date();
+		date_visit = normal_date(date);
+		time_visit_start = normal_time(date);
 	});
-	// gửi dữ liệu đi khi người dùng reload lại page
-	window.onunload = function(event) {
+	
+	window.onbeforeunload = function(event) {
 		console.log("Before unload event");
 		var time = Date.now() - start;
 		$.ajaxSetup({
@@ -423,6 +441,9 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 				'referer': referer,
 				'mon_an_id_referrer': mon_an_id_referrer,
 				'play_video': play_video,
+				'date_visit': date_visit,
+				'time_visit_start': time_visit_start,
+
 			},
 			success:function(response){
 				console.log(response);
@@ -432,6 +453,8 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 			}
 		});
 	};
+	
+	// Tự động gửi dữ liệu đi sau một khoảng thời gian được set
 	
 	// setInterval(function() {
 	// 	var time = Date.now() - start;
@@ -451,6 +474,8 @@ Dữ liệu tiềm ẩn: implicts data bao gồm:
 	// 			'referer': referer,
 	// 			'mon_an_id_referrer': mon_an_id_referrer,
 	// 			'play_video': play_video,
+	// 			'date_visit': date_visit,
+	// 			'time_visit_start': time_visit_start,
 	// 		},
 	// 		success:function(response){
 	// 			console.log(response);

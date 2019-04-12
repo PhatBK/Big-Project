@@ -31,11 +31,11 @@
                                                aria-expanded="false" class="search" >
                                         <span class="fa fa-search"></span></a>
                                     </li>
-                                    <li><a href="{{route('nhahang')}}">Nhà Hàng Liên Kết</a></li>
                                     @if(!Auth::guard('nhahang')->user())
                                       <li><a href="monan/ajax">Món Ăn</a></li>
                                     @endif
                                     <li><a href="dangbai">Bài Viết</a></li>
+                                    <li><a href="{{route('nhahang')}}">Nhà Hàng Liên Kết</a></li>
                                     @if(Auth::guard('nhahang')->user())
                                         <li>
                                           <a href="nhahang/thongtin">

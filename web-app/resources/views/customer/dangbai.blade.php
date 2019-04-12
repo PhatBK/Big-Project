@@ -93,13 +93,11 @@
                                             aria-expanded="false" class="search" >
                                         <span class="fa fa-search"></span></a>
                                     </li>
-                                    <li><a href="{{route('nhahang')}}">Nhà Hàng Liên Kết</a></li>
                                     @if(!Auth::guard('nhahang')->user())
                                        <li><a href="monan">Món Ăn</a></li>
                                     @endif
-                                    {{-- <li><a href="monan" >Món Ăn</a></li> --}}
                                     <li><a href="dangbai">Đăng bài</a></li>
-
+                                    <li><a href="{{route('nhahang')}}">Nhà Hàng Liên Kết</a></li>
                                     @if(Auth::guard('nhahang')->user())
                                         <li>
                                           <a href="nhahang/thongtin">
@@ -107,8 +105,6 @@
                                           </a>
                                         </li>
                                     @endif
-
-                                    {{-- <li><a href="#nhahang-thanhvien" class="linkthanhvien">Dành Cho Nhà Hàng</a></li> --}}
                                     @if( !Auth::user() && !Auth::guard('nhahang')->user())
                                       <li><a href="javascript:void(0)" class="signin">Đăng Nhập</a></li>
                                       <li><a href="javascript:void(0)" class="signup">Đăng Ký</a></li>

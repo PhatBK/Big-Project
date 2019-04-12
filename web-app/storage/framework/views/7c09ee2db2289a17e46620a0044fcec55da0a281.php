@@ -31,11 +31,11 @@
                                                aria-expanded="false" class="search" >
                                         <span class="fa fa-search"></span></a>
                                     </li>
-                                    <li><a href="<?php echo e(route('nhahang')); ?>">Nhà Hàng Liên Kết</a></li>
                                     <?php if(!Auth::guard('nhahang')->user()): ?>
                                       <li><a href="monan/ajax">Món Ăn</a></li>
                                     <?php endif; ?>
                                     <li><a href="dangbai">Bài Viết</a></li>
+                                    <li><a href="<?php echo e(route('nhahang')); ?>">Nhà Hàng Liên Kết</a></li>
                                     <?php if(Auth::guard('nhahang')->user()): ?>
                                         <li>
                                           <a href="nhahang/thongtin">
