@@ -374,7 +374,8 @@ Route::get('users','NangCapHeThongController@get_firebase');
 
 Route::post('user/logs/data/page-time', 'RecommenderCoreController@postUserPageTime');
 Route::get('/demo/call-api/', 'RecommenderCoreController@getAPI');
-Route::get('/api/recommender/share/data/v1','RecommenderCoreController@apiRecommenderShareData');
-Route::post();
+Route::get('/api/recommender/get-all/data', 'RecommenderCoreController@apiRecommenderShareData');
+Route::post('/api/recommender/post-all/data', 'RecommenderCoreController@apiRecommenderGetData');
+
 
 

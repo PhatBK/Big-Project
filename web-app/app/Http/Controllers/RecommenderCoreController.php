@@ -13,20 +13,11 @@ class RecommenderCoreController extends Controller
     {
        
     }
-    public function getAPI(Request $req) {
-        // dd($req->getClientIp());
-        $client = new Client([
-            // Base URI is used with relative requests
-            'base_uri' => 'http://httpbin.org',
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
-        dd($client);
+    public function getAPI() {
+
     }
     public function postUserPageTime(Request $req) {
-        $date_visit = null;
-        $time_visit_start = null;
-        
+
         $user_agent = $req->header('user-agent');
        
         $anonymouse = false;
@@ -62,19 +53,28 @@ class RecommenderCoreController extends Controller
         $user_data_saved->play_video = $is_play_video;
         $user_data_saved->anonymouse  = $anonymouse;
         $user_data_saved->ip_address = $req->ip();
-        $user_data_saved->date_visit = $req->date_visit;
-        $user_data_saved->time_visit_start = $req->time_visit_start;
-   
-        
+
+        $user_data_saved->date_visit = date('Y-m-d H:i:s');
+        $user_data_saved->time_visit_start = date("H:i:s");
+
+        // $user_data_saved->date_visit = $req->date_visit;
+        // $user_data_saved->time_visit_start = $req->time_visit_start;
+
         $user_data_saved->save();
 
         return response()->json($results);
     }
+    // send data for Flask
     public function apiRecommenderShareData() {
+
         $all_user_data_implicts = UserImplictsData::all();
-        
         return response()->json($all_user_data_implicts);
     }
+    // call api from Flask
+    public function apiRecommenderGetData(Request $req) {
+
+    }
+
     public function getFlaskApi() {
 
     }
